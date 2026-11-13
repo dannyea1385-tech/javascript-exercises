@@ -1,27 +1,68 @@
-const container = document.querySelector("#container");
 
-// 1. Párrafo rojo
-const paragraphRed = document.createElement("p");
-paragraphRed.style.color = "red";
-paragraphRed.textContent = "¡Hola, soy rojo!";
-container.appendChild(paragraphRed);
+// 1. Seleccionamos los botones de la interfaz
+const rockBtn = document.querySelector('#rock');
+const paperBtn = document.querySelector('#paper');
+const scissorsBtn = document.querySelector('#scissors');
 
-// 2. H3 azul
-const h3Blue = document.createElement("h3");
-h3Blue.style.color = "blue";
-h3Blue.textContent = "¡Soy un h3 azul!";
-container.appendChild(h3Blue);
+// 2. Les agregamos un escuchador de eventos para el clic
+rockBtn.addEventListener('click', () => {
+  playRound('rock', getComputerChoice());
+});
 
-// 3. Div con fondo rosa y borde negro
-const pinkDiv = document.createElement("div");
-pinkDiv.setAttribute("style", "border: 2px solid black; background-color: pink; padding: 15px; margin-top: 10px;");
+paperBtn.addEventListener('click', () => {
+  playRound('paper', getComputerChoice());
+});
 
-const divH1 = document.createElement("h1");
-divH1.textContent = "Estoy en un div";
-pinkDiv.appendChild(divH1);
+scissorsBtn.addEventListener('click', () => {
+  playRound('scissors', getComputerChoice());
+});
+// Variables de puntuación
+let playerScore = 0;
+let computerScore = 0;
 
-const divP = document.createElement("p");
-divP.textContent = "YO TAMBIÉN!";
-pinkDiv.appendChild(divP);
+// Función para que la computadora elija aleatoriamente
+function getComputerChoice() {
+  const choices = ['rock', 'paper', 'scissors'];
+  const randomIndex = Math.floor(Math.random() * choices.length);
+  return choices[randomIndex];
+}
 
-container.appendChild(pinkDiv);
+// Función que juega una ronda y actualiza la interfaz
+function playRound(playerSelection, computerSelection) {
+  const roundResult = document.querySelector('#round-result');
+  const playerScoreSpan = document.querySelector('#player-score');
+  const computerScoreSpan = document.querySelector('#computer-score');
+
+  // Si ya alguien ganó 5 puntos, no dejar seguir jugando
+  if (playerScore >= 5 || computerScore >= 5) {
+    return;
+  }
+
+  let resultMessage = "";
+
+  if (playerSelection === computerSelection) {
+    resultMessage = `¡Empate! Ambos eligieron ${playerSelection}.`;
+  } else if (
+    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+    (playerSelection === 'paper' && computerSelection === 'rock') ||
+    (playerSelection === 'scissors' && computerSelection === 'paper')
+  ) {
+    playerScore++;
+    resultMessage = `¡Ganaste esta ronda! ${playerSelection} vence a ${computerSelection}.`;
+  } else {
+    computerScore++;
+    resultMessage = `¡Perdiste esta ronda! ${computerSelection} vence a ${playerSelection}.`;
+  }
+
+  // Actualizar los textos en pantalla
+  roundResult.textContent = resultMessage;
+  playerScoreSpan.textContent = playerScore;
+  computerScoreSpan.textContent = computerScore;
+
+  // Comprobar si alguien llegó a 5 puntos
+  if (playerScore === 5) {
+    roundResult.textContent = "¡Felicidades! ¡Ganaste el juego al llegar a 5 puntos! 🏆";
+  } else if (computerScore === 5) {
+    roundResult.textContent = "¡La computadora ganó el juego con 5 puntos! Inténtalo de nuevo. 🤖";
+  }
+}

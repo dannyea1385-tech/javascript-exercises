@@ -2,14 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Práctica DOM - The Odin Project</title>
-    <!-- Enlazamos el archivo de JavaScript -->
+    <title>Piedra, Papel o Tijera - The Odin Project</title>
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>THE TITLE OF YOUR WEBPAGE</h1>
-    
-    <!-- Este es el contenedor clave que pide el ejercicio -->
-    <div id="container"></div>
+    <h1>PIEDRA, PAPEL O TIJERA</h1>
+
+    <div id="container">
+        <button id="rock">Piedra 👊</button>
+        <button id="paper">Papel 📄</button>
+        <button id="scissors">Tijera ✂️</button>
+    </div>
+
+    <div id="score-board">
+        <p>Jugador: <span id="player-score">0</span> | Computadora: <span id="computer-score">0</span></p>
+    </div>
+
+    <div id="results-container">
+        <p id="round-result">¡Elige una opción para empezar a jugar!</p>
+    </div>
 </body>
 </html>
